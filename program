@@ -1,0 +1,1201 @@
+###### how to connect git bash and github ######
+
+
+git --version
+git config --global user.name "harshkumarkurmi5535"
+git config --global user.email "harshkumarkurmi5535@gmail.com"
+git config --global --list
+Create a GitHub Repository
+"Step 4: Generate a Personal Access Token (PAT)
+	Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic).
+	Click Generate new token (classic).
+	Give it a name such as Git Bash.
+	Select an expiration period.
+	Select the repo scope (or public_repo if you only need public repositories).
+	Click Generate token.
+	Copy the token immediately and save it securely.
+"
+
+git clone https://github.com/harshkumarkurmi5535/FLprogram-2.git
+cd FLprogram-2
+git status
+git add index.html
+git commit -m "Added website index file"
+git push -u origin main
+
+
+
+
+
+PROGRAM 1.
+
+
+
+git clone https://github.com/your-username/repository-name.git
+cd repository-name
+git config --global user.name
+git config --global user.email
+git config --global user.name "Kritayush Singh Basnyat"
+git config --global user.email "kritayushb@gmail.com"
+git config --global --list
+
+
+
+PROGRAM 2.
+
+
+
+git --version
+git config --global user.name "Kritayush Singh Basnyat"
+git config --global user.email "kritayushb@gmail.com"
+git config --global --list
+git clone https://github.com/KritayushSinghBasnyat/PROG-2
+cd PROG-2
+touch index.html
+git status
+git add index.html
+git commit -m "Added website index file"
+git branch
+git push origin main
+git pull origin main
+
+
+
+PROGRAM 3.
+
+
+
+docker --version
+sudo systemctl status docker
+docker images
+docker ps
+docker ps -a
+docker pull ubuntu
+docker rm container-id
+docker run -it ubuntu bash
+	ls
+	pwd
+	apt update
+	exit
+mkdir docker-app
+cd docker-app
+notepad app.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello from Docker Container!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+notepad requirements.txt
+flask
+touch Dockerfile
+notepad Dockerfile
+FROM python:3.9
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "app.py"]
+
+docker build -t flask-docker-app .
+docker images
+docker run -p 5000:5000 flask-docker-app
+http://localhost:5000
+docker login
+docker tag flask-docker-app kritayush/flask-docker-app
+docker push kritayush/flask-docker-app
+
+
+
+PROGRAM 4.
+
+
+
+mkdir microservice-app
+cd microservice-app
+mkdir app
+cd app
+notepad app.py
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Microservice App Running!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+notepad requirements.txt
+flask
+touch Dockerfile
+notepad Dockerfile
+FROM python:3.11-alpine
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "app.py"]
+
+cd ..
+notepad docker-compose.yml
+services:
+  web:
+    build: ./app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: sampledb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+
+docker compose up --build
+http://localhost:5000
+docker ps
+
+
+
+
+
+
+
+PROGRAM 5.
+
+
+
+
+
+
+Step 1 — Install Jenkins
+
+Your notes say:
+
+sudo pacman -S jenkins
+
+This is ONLY for Arch Linux.
+
+For Ubuntu:
+
+sudo apt update
+
+sudo apt install jenkins -y
+IMPORTANT REQUIREMENT
+
+Jenkins requires Java (JDK).
+
+Check Java:
+
+java -version
+Step 2 — Start Jenkins Service
+
+Correct command:
+
+sudo systemctl start jenkins
+
+Enable at boot:
+
+sudo systemctl enable jenkins
+
+Check status:
+
+sudo systemctl status jenkins
+Step 3 — Open Jenkins
+
+Open browser:
+
+http://localhost:8080
+Step 4 — Unlock Jenkins
+
+Your notes:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Correct.
+
+Copy generated password.
+
+Paste into browser.
+
+Step 5 — Install Plugins
+
+Click:
+
+Install suggested plugins
+
+Wait for installation.
+
+Step 6 — Create Admin User
+
+Enter:
+
+username
+password
+email
+
+Click:
+
+Save and Continue
+
+Jenkins ready.
+
+PART 2 — Docker Method (VERY IMPORTANT)
+
+This is MUCH easier in labs.
+
+Your notes mix Docker and AWS together.
+
+Here is the clean version.
+
+Step 1 — Pull Jenkins Image
+docker pull jenkins/jenkins:lts
+Step 2 — Run Jenkins Container
+
+Your notes had:
+
+docker run -p 8080:8080 -p 5000:5000 jenkins/jenkins
+
+Better version:
+
+docker run -d -p 8080:8080 -p 50000:50000 --name jenkins jenkins/jenkins:lts
+
+Explanation:
+
+Port	Purpose
+8080	Jenkins web UI
+50000	Jenkins agent communication
+Step 3 — Open Jenkins
+
+Browser:
+
+http://localhost:8080
+Step 4 — Get Initial Password
+
+IMPORTANT.
+
+Run:
+
+docker logs jenkins
+
+Scroll and find:
+
+Please use the following password to proceed:
+
+Copy password.
+
+Better Command
+
+Directly print password:
+
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+Much easier.
+
+Step 5 — Unlock Jenkins
+
+Paste password into browser.
+
+Step 6 — Install Plugins
+
+Click:
+
+Install suggested plugins
+Step 7 — Create Admin User
+
+Enter:
+
+username
+password
+email
+
+Done.
+
+PART 3 — AWS Cloud Setup (Theory Mostly)
+
+Your notes contain EC2 setup.
+
+Usually NOT executed in lab.
+
+Still useful for viva.
+
+Steps in AWS
+Create EC2 Instance
+
+Use:
+
+Amazon Linux
+Ubuntu
+Install Docker
+
+Amazon Linux:
+
+sudo yum install docker -y
+
+Ubuntu:
+
+sudo apt install docker.io -y
+Start Docker
+sudo systemctl start docker
+Add User to Docker Group
+sudo usermod -aG docker $USER
+
+Apply changes:
+
+newgrp docker
+Run Jenkins Container
+docker run -d -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+Open EC2 Security Group Port
+
+Allow:
+
+TCP 8080
+
+in inbound rules.
+
+Open Jenkins in Browser
+http://<public-ip>:8080
+
+
+
+
+
+
+
+
+
+
+PROGRAM 6.
+
+
+
+
+
+
+
+
+PART 1 — Start SonarQube
+Option 1 — Windows ZIP Method (Your Notes)
+
+Your notes use manual SonarQube startup.
+
+Step 1 — Download SonarQube
+
+Download Community Edition from:
+
+SonarQube Downloads
+
+Extract ZIP.
+
+Step 2 — Open SonarQube Folder
+
+Go to:
+
+sonarqube/bin/windows-x86-64
+Step 3 — Start SonarQube
+
+Double-click:
+
+StartSonar.bat
+
+Wait until server starts.
+
+Step 4 — Open Browser
+
+Open:
+
+http://localhost:9000
+
+Default login:
+
+Username: admin
+Password: admin
+IMPORTANT
+
+SonarQube requires Java.
+
+Check:
+
+java -version
+PART 2 — Generate SonarQube Token
+
+This token lets Jenkins connect to SonarQube.
+
+Steps
+
+Inside SonarQube:
+
+Go to:
+
+My Account → Security
+
+Under:
+
+Generate Tokens
+
+Enter token name:
+
+jenkins-token
+
+Click:
+
+Generate
+Copy token immediately.
+
+VERY IMPORTANT:
+
+you cannot view it again later.
+PART 3 — Install SonarQube Plugin in Jenkins
+
+Open Jenkins:
+
+http://localhost:8080
+Install Plugin
+
+Go to:
+
+Manage Jenkins
+→ Plugins
+→ Available Plugins
+
+Search:
+
+SonarQube Scanner
+
+Install plugin.
+
+Restart Jenkins if needed.
+
+PART 4 — Configure SonarQube in Jenkins
+Step 1 — Open Jenkins Configuration
+
+Go to:
+
+Manage Jenkins
+→ System
+Step 2 — Find SonarQube Servers
+
+Add:
+
+Field	Value
+Name	My SonarQube Server
+Server URL	http://localhost:9000
+Step 3 — Add Authentication Token
+
+Under credentials:
+
+Click:
+
+Add → Jenkins
+
+Kind:
+
+Secret Text
+Secret:
+paste SonarQube token
+
+ID:
+
+sonar-token
+Save
+
+Then select that credential.
+
+PART 5 — Configure Maven in Jenkins
+
+Very important because pipeline uses Maven.
+
+Go to:
+
+Manage Jenkins
+→ Tools
+
+Under Maven:
+
+Add Maven
+
+Name:
+
+Maven3
+Install automatically
+
+Save.
+
+PART 6 — Create Jenkins Pipeline Job
+Create New Item
+
+Click:
+
+New Item
+
+Enter name:
+
+sonar-pipeline
+
+Select:
+
+Pipeline
+Create.
+PART 7 — Add Jenkinsfile / Pipeline Script
+
+Your notes contain incomplete pipeline syntax.
+
+Here is the corrected version.
+
+Pipeline Script
+
+Paste inside Pipeline Script section:
+
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven3'
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+    }
+}
+IMPORTANT FOR WINDOWS
+
+If Jenkins runs on Windows directly:
+
+Replace:
+
+sh
+
+with:
+
+bat
+
+So:
+
+bat 'mvn clean install'
+
+and:
+
+bat 'mvn sonar:sonar'
+What This Pipeline Does
+Stage 1 — Build
+mvn clean install
+
+Builds Maven project.
+
+Stage 2 — SonarQube Analysis
+mvn sonar:sonar
+
+Runs code quality analysis.
+
+PART 8 — Run Pipeline
+
+Click:
+
+Build Now
+
+Then:
+
+open Build History
+click running build
+open Console Output
+Successful Build
+
+Green color means:
+
+build success,
+SonarQube analysis success.
+PART 9 — View SonarQube Report
+
+Open:
+
+http://localhost:9000
+
+You’ll see:
+
+bugs
+vulnerabilities
+code smells
+quality gate results
+
+
+
+
+
+
+
+
+
+
+
+PROGRAM 7.
+
+
+
+
+
+
+
+
+
+
+PART 1 — Install Java JDK
+Step 1 — Download JDK
+
+Download from:
+
+Oracle JDK Downloads
+
+OR:
+
+OpenJDK Adoptium
+
+Install normally.
+
+Step 2 — Verify Java Installation
+
+Open:
+
+CMD
+PowerShell
+Git Bash
+
+Run:
+
+java -version
+
+Example output:
+
+java version "21"
+PART 2 — Maven Installation
+Step 1 — Download Maven
+
+Download:
+
+Apache Maven Downloads
+
+Download:
+
+Binary zip archive
+Step 2 — Extract Maven
+
+Extract to:
+
+C:\Program Files\Apache\Maven
+
+Example:
+
+C:\Program Files\Apache\Maven\apache-maven-3.9.x
+Step 3 — Set Maven PATH
+
+Open:
+
+Control Panel
+→ System
+→ Advanced System Settings
+→ Environment Variables
+
+Under:
+
+System Variables
+
+Edit:
+
+Path
+
+Add:
+
+C:\Program Files\Apache\Maven\apache-maven-3.9.x\bin
+
+Click OK.
+
+Step 4 — Verify Maven Installation
+
+Open NEW terminal.
+
+Run:
+
+mvn -version
+
+Example output:
+
+Apache Maven 3.9.x
+Java version: 21
+IMPORTANT
+
+If:
+
+mvn is not recognized
+
+appears:
+
+PATH variable incorrect,
+or terminal not restarted.
+PART 3 — Gradle Installation
+Step 1 — Download Gradle
+
+Download from:
+
+Gradle Releases
+
+Download:
+
+Binary-only zip
+Step 2 — Extract Gradle
+
+Extract to:
+
+C:\Gradle
+
+Example:
+
+C:\Gradle\gradle-8.x
+Step 3 — Set Gradle PATH
+
+Go to:
+
+Control Panel
+→ System
+→ Advanced System Settings
+→ Environment Variables
+
+Edit:
+
+Path
+
+Add:
+
+C:\Gradle\gradle-8.x\bin
+Step 4 — Verify Gradle Installation
+
+Open NEW terminal.
+
+Run:
+
+gradle -version
+
+Example output:
+
+Gradle 8.x
+
+
+
+
+
+
+
+
+
+
+
+PROGRAM 8
+
+
+
+
+
+
+
+
+
+
+PART 1 — Install Java and Maven
+
+(Already covered in Program 7)
+
+Verify:
+
+java -version
+
+mvn -version
+PART 2 — Create Maven Project
+
+Your notes use Maven Archetype.
+
+That is correct.
+
+Step 1 — Create Project
+
+Open terminal/Git Bash.
+
+Run:
+
+mvn archetype:generate ^
+-DgroupId=com.example.mavenapp ^
+-DartifactId=mavenapp ^
+-DarchetypeArtifactId=maven-archetype-quickstart ^
+-DinteractiveMode=false
+IMPORTANT
+
+In Git Bash/Linux/macOS use \ instead of ^
+
+Example:
+
+mvn archetype:generate \
+-DgroupId=com.example.mavenapp \
+-DartifactId=mavenapp \
+-DarchetypeArtifactId=maven-archetype-quickstart \
+-DinteractiveMode=false
+What These Mean
+Parameter	Meaning
+groupId	company/package name
+artifactId	project name
+archetype	template
+interactiveMode=false	skip questions
+Project Structure Created
+mavenapp/
+ ├── pom.xml
+ └── src/
+     ├── main/java
+     └── test/java
+PART 3 — Understand pom.xml
+
+Your notes contain the basic structure correctly.
+
+Here is the clean version.
+
+Basic pom.xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.mavenapp</groupId>
+
+    <artifactId>mavenapp</artifactId>
+
+    <version>1.0-SNAPSHOT</version>
+
+</project>
+Meaning of Important Tags
+Tag	Meaning
+groupId	package/company
+artifactId	project name
+version	project version
+PART 4 — Dependency Management
+
+Dependencies are external libraries.
+
+Your notes use JUnit dependency.
+
+Correct.
+
+Add Dependency
+
+Inside <dependencies>:
+
+<dependencies>
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+
+</dependencies>
+What Maven Does
+
+Automatically downloads JUnit from Maven Central Repository.
+
+PART 5 — Plugins
+
+Plugins extend Maven functionality.
+
+Examples:
+
+compile code,
+run programs,
+package JARs.
+Maven Compiler Plugin
+
+Your notes are correct here.
+
+Add Plugin
+<build>
+
+    <plugins>
+
+        <plugin>
+
+            <groupId>org.apache.maven.plugins</groupId>
+
+            <artifactId>maven-compiler-plugin</artifactId>
+
+            <version>3.8.1</version>
+
+            <configuration>
+
+                <source>1.8</source>
+
+                <target>1.8</target>
+
+            </configuration>
+
+        </plugin>
+
+    </plugins>
+
+</build>
+Meaning
+Tag	Meaning
+source	Java source version
+target	JVM target version
+PART 6 — Build the Project
+
+Go inside project:
+
+cd mavenapp
+
+Run:
+
+mvn clean install
+What This Does
+Command	Meaning
+clean	removes old build files
+install	compiles, tests, packages
+Build Success
+
+If successful:
+
+BUILD SUCCESS
+
+appears.
+
+PART 7 — Run Java Program
+
+Your notes use:
+
+mvn exec:java
+
+Correct idea, but plugin may be missing.
+
+Method 1 — Simple Java Run
+
+Compile:
+
+mvn compile
+
+Run:
+
+java -cp target/classes com.example.mavenapp.App
+Method 2 — Using Exec Maven Plugin
+
+Add plugin:
+
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>3.1.0</version>
+</plugin>
+
+Then run:
+
+mvn exec:java -Dexec.mainClass="com.example.mavenapp.App"
+Default Generated App.java
+
+Usually Maven generates:
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+PROGRAM 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ART 1 — Prerequisites
+
+Verify:
+
+java -version
+
+mvn -version
+
+gradle -version
+PART 2 — Maven Project
+
+Your notes mention Maven briefly because Program 8 already covered it.
+
+Create Maven Project
+
+Run:
+
+mvn archetype:generate ^
+-DgroupId=com.example.mavenapp ^
+-DartifactId=mavenapp ^
+-DarchetypeArtifactId=maven-archetype-quickstart ^
+-DinteractiveMode=false
+Build Maven Project
+
+Go inside:
+
+cd mavenapp
+
+Run:
+
+mvn clean install
+Run Maven Application
+
+Run:
+
+mvn exec:java -Dexec.mainClass="com.example.mavenapp.App"
+
+Expected output:
+
+Hello World!
+PART 3 — Migrate to Gradle
+
+Now recreate same application using Gradle.
+
+Step 1 — Create Gradle Project
+
+Your notes are correct conceptually.
+
+Create folders:
+
+mkdir gradleapp
+cd gradleapp
+Create Java Source Folder
+
+Windows CMD:
+
+mkdir src\main\java\com\example\gradleapp
+
+Git Bash/Linux:
+
+mkdir -p src/main/java/com/example/gradleapp
+Step 2 — Create App.java
+
+Create file:
+
+src/main/java/com/example/gradleapp/App.java
+App.java Code
+package com.example.gradleapp;
+
+public class App {
+
+    public static void main(String[] args) {
+
+        System.out.println("Hello from Gradle App!");
+
+    }
+}
+PART 4 — Create build.gradle
+
+Your notes are mostly correct.
+
+Create file:
+
+build.gradle
+Correct build.gradle
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example.gradleapp'
+
+version = '1.0'
+
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClass = 'com.example.gradleapp.App'
+}
+What This File Does
+Section	Purpose
+plugins	enables Java/app support
+repositories	dependency source
+dependencies	external libraries
+application	defines main class
+PART 5 — Build Gradle Project
+
+Run:
+
+gradle build
+What Happens?
+
+Gradle:
+
+compiles Java,
+downloads dependencies,
+creates build files.
+Successful Output
+BUILD SUCCESSFUL
+PART 6 — Run Application
+
+Run:
+
+gradle run
+
+Expected output:
+
+Hello from Gradle App!
